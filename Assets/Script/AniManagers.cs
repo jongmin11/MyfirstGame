@@ -6,8 +6,8 @@ namespace Metaverse
 {
     public enum targetDirectType
     {
-        forward =0,
-        backward =1
+        forward = 0,
+        backward = 1
     }
     public enum AniType
     {
@@ -19,12 +19,11 @@ namespace Metaverse
     }
     public class AniManagers : MonoBehaviour
     {
-        Rigidbody2D rigidbody2D;
-        Animator animator;
         public float speedWalk = 2.5f;
         public float speedRun = 7f;
         public float moveXstep = 1;
         public float moveYstep = 0.7f;
+        public LayerMask wallLayer;
 
         targetDirectType targetType;
         public Animator[] targetAnimators; //0- forward 1- backward
@@ -42,11 +41,11 @@ namespace Metaverse
             {
                 targetType = targetDirectType.forward;
                 targetAnimators[(int)targetType].gameObject.SetActive(false);
-                isPose = false; 
+                isPose = false;
                 isRun = false;
                 this.gameObject.transform.localPosition = new Vector3(11, -8, 0);
                 this.gameObject.transform.localScale = new Vector3(1, 1, 1);
-                
+
             }
         }
 
@@ -79,9 +78,9 @@ namespace Metaverse
             {
                 if (isPose)  //pose animation reset.
                     targetAnimators[(int)targetType].gameObject.SetActive(false);
-                moveVelocity = new Vector3(-moveXstep, -moveYstep,0);
+                moveVelocity = new Vector3(-moveXstep, -moveYstep, 0);
                 targetType = targetDirectType.forward;
-                this.gameObject.transform.localScale= new Vector3(1, 1, 1);
+                this.gameObject.transform.localScale = new Vector3(1, 1, 1);
                 isPose = false;
                 isMove = true;
             }
@@ -94,7 +93,7 @@ namespace Metaverse
                 targetType = targetDirectType.forward;
                 isPose = false;
                 isMove = true;
-            }           
+            }
             if (Input.GetKey(KeyCode.D)) //NE
             {
                 if (isPose)  //pose animation reset.
@@ -121,27 +120,20 @@ namespace Metaverse
                 {
                     speed = speedRun;
                     SetAni(AniType.run);
-                }                    
+                }
                 else
                 {
                     speed = speedWalk;
                     SetAni(AniType.walk);
-                }                   
+                }
             }
 
-
             Vector3 newPosition = transform.position + moveVelocity * speed * Time.deltaTime;
-
-            float ppu = 100f;
-            newPosition.x = Mathf.Round(newPosition.x * ppu) / ppu;
-            newPosition.y = Mathf.Round(newPosition.y * ppu) / ppu;
-
             transform.position = newPosition;
-
         }
 
-       void Pose()
-       {
+        void Pose()
+        {
             if (Input.GetKeyDown(KeyCode.O))
             {
                 isPose = true;
@@ -154,7 +146,7 @@ namespace Metaverse
                 targetType = targetDirectType.forward;
                 SetAni(AniType.lose);
             }
-       }
+        }
 
         void SetAni(AniType aType)
         {
@@ -170,5 +162,9 @@ namespace Metaverse
             }
             targetAnimators[(int)targetType].SetInteger("aniInt", (int)aType);
         }
+
+    
     }
+
+    
 }
