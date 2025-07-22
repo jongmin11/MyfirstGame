@@ -97,3 +97,9 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+/[Aa]ssets/Cainos/**
+/[Aa]ssets/Free 32x32 Isometric Tileset Pack/**
+/[Aa]ssets/FW_MIHO/**
+/[Aa]ssets/Gutty Kreum/**
+/[Aa]ssets/tappyplane/**
+/[Aa]ssets/TopDown 2D RPG BE3/**
