@@ -127,8 +127,17 @@ namespace Metaverse
                     speed = speedWalk;
                     SetAni(AniType.walk);
                 }                   
-            }         
-            transform.position += moveVelocity * speed * Time.deltaTime;
+            }
+
+
+            Vector3 newPosition = transform.position + moveVelocity * speed * Time.deltaTime;
+
+            float ppu = 100f;
+            newPosition.x = Mathf.Round(newPosition.x * ppu) / ppu;
+            newPosition.y = Mathf.Round(newPosition.y * ppu) / ppu;
+
+            transform.position = newPosition;
+
         }
 
        void Pose()
