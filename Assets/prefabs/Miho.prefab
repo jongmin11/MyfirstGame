@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6211632160621240266}
   m_Layer: 0
   m_Name: Miho
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
   speedRun: 50
   moveXstep: 1
   moveYstep: 0.7
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
   targetAnimators:
   - {fileID: 145490665017429099}
   - {fileID: 2795964169756371824}
