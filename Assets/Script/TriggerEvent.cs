@@ -1,42 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class TriggerEvent : MonoBehaviour
 {
+    [Header("UI")]
+    public GameObject talkButton;          // Canvas 위의 TalkButton
+    public DialogueTrigger dialogueTrigger;// 위에서 붙인 컴포넌트
 
-    public string playerTag = "Player";
+    [Header("Settings")]
+    public float verticalOffset = 2f;      // NPC 머리 위 버튼 높이
 
-    public UnityEvent onEnter;
-    public UnityEvent onExit;
+    private Camera mainCam;
+    private RectTransform buttonRect;
 
-    public void Awake()
+    void Awake()
     {
-        var col = GetComponent<Collider2D>();
-        col.isTrigger = true;
+        mainCam = Camera.main;
+        buttonRect = talkButton.GetComponent<RectTransform>();
+        talkButton.SetActive(false);
+        talkButton.GetComponent<Button>()
+                  .onClick.AddListener(dialogueTrigger.TriggerDialogue);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(playerTag))
-            onEnter?.Invoke();
+        if (other.CompareTag("Player")) talkButton.SetActive(true);
     }
-
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag(playerTag))
-            onExit?.Invoke();
+        if (other.CompareTag("Player")) talkButton.SetActive(false);
     }
-
-    void Start()
-    {
-        
-    }
-
 
     void Update()
     {
-        
+        if (!talkButton.activeSelf) return;
+        Vector3 worldPos = transform.position + Vector3.up * verticalOffset;
+        buttonRect.position = mainCam.WorldToScreenPoint(worldPos);
     }
 }
