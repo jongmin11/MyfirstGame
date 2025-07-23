@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.Space) && !isflapping)
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
             {
                 isflapping = true;
             }
@@ -45,9 +45,12 @@ public class Player : MonoBehaviour
 
         if (isflapping)
         {
-            velocity.y = jumpForce;
+            velocity.y += jumpForce;
             isflapping = false;
         }
-       
+
+        rigidbody2D.velocity = velocity;
+        float angle = Mathf.Clamp((rigidbody2D.velocity.y * 10), -90f, 90f);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
