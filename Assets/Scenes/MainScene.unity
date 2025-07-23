@@ -480,15 +480,61 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1455777986109940528, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0054687
+      objectReference: {fileID: 0}
+    - target: {fileID: 1455777986109940528, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -122.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_margin.w
+      value: -49.099037
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_margin.y
+      value: 9.588473
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7455394516604165330, guid: 68ba4393e69bbda4ebcabe9b6e01a6e2,
+        type: 2}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833782532170130498, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2947278060645088135, guid: 7b02d892125f1e14191a7358498e6308,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3484088789134433063, guid: 7b02d892125f1e14191a7358498e6308,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Name
+      value: LunaLudoUI
       objectReference: {fileID: 0}
     - target: {fileID: 7399489417239781466, guid: 7b02d892125f1e14191a7358498e6308,
         type: 3}
@@ -501,7 +547,8 @@ PrefabInstance:
       value: MidNPC
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2790559720182466291, guid: 7b02d892125f1e14191a7358498e6308, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b02d892125f1e14191a7358498e6308, type: 3}
@@ -6560,8 +6607,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   talkPanel: {fileID: 1551106644}
+  nameText: {fileID: 1356027380}
   dialogueText: {fileID: 784939332}
-  npcNameText: {fileID: 1356027380}
+  portraitImage: {fileID: 1437444732}
 --- !u!4 &1332223495
 Transform:
   m_ObjectHideFlags: 0
@@ -6634,6 +6682,18 @@ Transform:
   - {fileID: 515364958}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1437444732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8857844912110743464, guid: 7b02d892125f1e14191a7358498e6308,
+    type: 3}
+  m_PrefabInstance: {fileID: 112209222}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1486842155
 PrefabInstance:
   m_ObjectHideFlags: 0

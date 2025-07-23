@@ -1,9 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dialogue/NPC Dialogue")]
+[CreateAssetMenu(menuName = "Dialogue/Table-Based Dialogue")]
 public class DialogueData : ScriptableObject
 {
-    public string npcName;
-    [TextArea(2, 5)]
-    public string[] lines;
+    public DialogueLine[] lines;   // 한 줄마다 이름 + 대사 + 표정 다 포함
 }

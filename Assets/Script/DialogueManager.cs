@@ -1,44 +1,42 @@
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 public class DialogueManager : MonoBehaviour
 {
     public GameObject talkPanel;
+    public Text nameText;
     public TMP_Text dialogueText;
-    public Text npcNameText;
+    public Image portraitImage;
 
-    private string[] lines;
+    private DialogueLine[] lines;
     private int currentLine;
     private bool isTalking = false;
 
     public static DialogueManager Instance;
 
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        Instance = this;
     }
 
     void Update()
     {
         if (isTalking && Input.GetKeyDown(KeyCode.E))
-        {
-            AdvanceLine();
-        }
+            AdvanceDialogue();
     }
 
     public void StartDialogue(DialogueData data)
     {
-        Debug.Log("TalkPanel È°¼ºÈ­");
-        talkPanel.SetActive(true);
+        if (data == null || data.lines.Length == 0) return;
+
         lines = data.lines;
-        npcNameText.text = data.npcName;
         currentLine = 0;
         isTalking = true;
-        dialogueText.text = lines[currentLine];
+        talkPanel.SetActive(true);
+        DisplayLine(lines[currentLine]);
     }
 
-    void AdvanceLine()
+    void AdvanceDialogue()
     {
         currentLine++;
         if (currentLine >= lines.Length)
@@ -47,18 +45,22 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            dialogueText.text = lines[currentLine];
+            DisplayLine(lines[currentLine]);
         }
+    }
+
+    void DisplayLine(DialogueLine line)
+    {
+        nameText.text = line.speakerName;
+        dialogueText.text = line.text;
+        portraitImage.sprite = line.expression;
     }
 
     void EndDialogue()
     {
-        talkPanel.SetActive(false);
         isTalking = false;
+        talkPanel.SetActive(false);
     }
 
-    public bool IsTalking()
-    {
-        return isTalking;
-    }
+    public bool IsTalking() => isTalking;
 }

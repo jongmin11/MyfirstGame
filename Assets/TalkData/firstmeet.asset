@@ -10,8 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f6fa3d0408c0d54bba3b137d9b13ddf, type: 3}
-  m_Name: LudoDialogue Data
+  m_Name: firstmeet
   m_EditorClassIdentifier: 
-  npcName: Ludo
   lines:
-  - "\uC548\uB155! \uB098\uB294 \uB8E8\uB3C4\uB77C\uACE0\uD574!"
+  - speakerName: Luna
+    text: "\uC548\uB155\uD558\uC138\uC694!\n\uBA54\uD0C0\uBC84\uC2A4\uC138\uACC4\uC5D0
+      \uC5B4\uC11C\uC624\uC138\uC694! \n\uC800\uB294 \uB8E8\uB098\uB77C\uACE0\uD574\uC694!"
+    expression: {fileID: 21300002, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
+  - speakerName: 
+    text: 
+    expression: {fileID: 0}
