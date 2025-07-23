@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class NPCInteraction : MonoBehaviour
 {
-    public GameObject eKeyUI; // ø©±‚ø° "Canvas" ≥÷±‚
+    public GameObject eKeyUI;
+    public DialogueData dialogueData;
 
     private bool isPlayerNearby = false;
 
     void Update()
     {
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("E ≈∞ ¿‘∑¬: ªÛ»£¿€øÎ Ω««‡");
-            // ¥Î»≠ √¢ ø≠±‚ µÓ
+        {   
+            DialogueManager.Instance.StartDialogue(dialogueData);
         }
     }
 
@@ -21,7 +19,7 @@ public class NPCInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            eKeyUI.SetActive(true);  // <-- Canvas ¥‹¿ß∑Œ ƒ—±‚
+            eKeyUI.SetActive(true);
             isPlayerNearby = true;
         }
     }
@@ -31,7 +29,12 @@ public class NPCInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             eKeyUI.SetActive(false);
-            isPlayerNearby = false;
+
+            // ÎåÄÌôî Ï§ëÏù¥ ÏïÑÎãê ÎïåÎßå ÎÅäÏùå
+            if (!DialogueManager.Instance.IsTalking())
+            {
+                isPlayerNearby = false;
+            }
         }
     }
 }
