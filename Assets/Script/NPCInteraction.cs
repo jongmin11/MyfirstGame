@@ -46,7 +46,7 @@ public class NPCInteraction : MonoBehaviour
 
             if (DialogueManager.Instance.IsTalking())
             {
-                DialogueManager.Instance.ForceEndDialogue();
+                DialogueManager.Instance.ForceEndDialogue(skipSceneChange: true);
             }
         }
     }

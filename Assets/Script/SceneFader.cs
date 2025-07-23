@@ -38,6 +38,7 @@ public class SceneFader : MonoBehaviour
             GameObject prefab = Resources.Load<GameObject>("LoadingCanvas");
             if (prefab == null)
             {
+                Debug.LogError("Resources/LoadingCanvas 프리팹 없음");
                 yield break;
             }
 
@@ -49,48 +50,37 @@ public class SceneFader : MonoBehaviour
         }
 
         loadingUI.SetActive(true);
-        yield return StartCoroutine(Fade(0f, 1f));  // 어두워지기
 
-        // 2. 씬 비동기 로드
+        // 2. 화면 어두워지기 (페이드 아웃)
+        yield return StartCoroutine(Fade(0f, 1f));
+
+        // 3. 씬 비동기 로딩 시작
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
 
-        // 3. 가짜 로딩 진행률 만들기
-        float fakeLoadTime = Random.Range(1.5f, 3.0f);
-        float timer = 0f;
-        while (timer < fakeLoadTime)
+        // 4. 슬라이더 값을 실제 로딩 속도에 맞춰 증가
+        while (op.progress < 0.9f)
         {
-            timer += Time.deltaTime;
-            float progress = Mathf.Clamp01(timer / fakeLoadTime);
+            float progress = Mathf.Clamp01(op.progress / 0.9f); // 0~1 보정
             if (loadingBar != null)
-                loadingBar.value = progress;
+                loadingBar.value = Mathf.MoveTowards(loadingBar.value, progress, Time.deltaTime * 0.5f);
             yield return null;
         }
 
-        // 4. 로딩바 확실히 1까지 도달
-        while (loadingBar != null && loadingBar.value < 1f)
-        {
-            loadingBar.value += Time.deltaTime * 0.5f;
-            yield return null;
-        }
+        // 5. 마지막 구간: 슬라이더 1로 마무리
+        if (loadingBar != null)
+            loadingBar.value = 1f;
 
-        // 5. 진짜 씬 로딩 끝났는지 대기
-        while (!op.isDone || op.progress < 0.9f)
-        {
-            yield return null;
-        }
-
-        //  여기서만 allowSceneActivation 허용
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f); // 살짝 딜레이
         op.allowSceneActivation = true;
 
-        // 6. 씬 넘어간 후 다음 프레임
+        // 6. 씬 넘어간 후 → 다음 프레임 대기
         yield return null;
 
-        // 7. 밝아지기
+        // 7. 밝아지기 (페이드 인)
         yield return StartCoroutine(Fade(1f, 0f));
 
-        // 8. 로딩 UI 꺼주기
+        // 8. 로딩 UI 비활성화
         loadingUI.SetActive(false);
     }
 

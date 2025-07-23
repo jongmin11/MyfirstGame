@@ -86,29 +86,30 @@ public class DialogueManager : MonoBehaviour
         talkPanel.SetActive(false);
     }
 
-    public void ForceEndDialogue()
+    public void ForceEndDialogue(bool skipSceneChange = false)
     {
         EndDialogue();
 
         if (currentDialogueLine == null)
         {
-            Debug.LogError("❌ currentDialogueLine is NULL!");
             return;
         }
 
         if (!currentDialogueLine.triggerSceneChange)
         {
-            Debug.Log("ℹ️ 씬 전환 트리거 아님");
             return;
+        }
+
+        if (skipSceneChange)
+        {
+            return;    
         }
 
         if (SceneFader.Instance == null)
         {
-            Debug.LogError("❌ SceneFader.Instance is NULL! 씬에 존재하지 않음");
             return;
         }
 
-        Debug.Log("✅ 씬 전환 시도: " + currentDialogueLine.nextSceneName);
         SceneFader.Instance.FadeAndLoadScene(currentDialogueLine.nextSceneName);
     }
 
