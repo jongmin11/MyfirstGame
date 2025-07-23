@@ -14,3 +14,7 @@
 *.anim text merge=unityyamlmerge eol=lf
 *.controller text merge=unityyamlmerge eol=lf
 *.overrideController text merge=unityyamlmerge eol=lf
+* text=auto
+*.cs text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf

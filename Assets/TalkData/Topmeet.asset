@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speakerName: Luna
-    text: "\uC548\uB155\uD558\uC138\uC694!\n\uBA54\uD0C0\uBC84\uC2A4\uC138\uACC4\uC5D0
-      \uC5B4\uC11C\uC624\uC138\uC694! \n\uC800\uB294 \uB8E8\uB098\uB77C\uACE0\uD574\uC694!"
-    expression: {fileID: 21300002, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - speakerName: "\u3137\u3142\u3148\u3137\u3142\u3148"
-    text: 2321321
-    expression: {fileID: 21300000, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - speakerName: "\u3137\u3142\u3148\u3137\u3142\u3148\u3137\u3142\u3148"
-    text: 321312
-    expression: {fileID: 21300008, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
+    text: "\uBE44\uD589\uAE30 \uBBF8\uB2C8\uAC8C\uC784!\n\uD50C\uB808\uC774 \uD558\uC2E4\uAC74\uAC00\uC694?"
+    expression: {fileID: 21300004, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
+    triggerSceneChange: 1
+    nextSceneName: MiniGameTop

@@ -13,31 +13,22 @@ public class DialogueManager : MonoBehaviour
     private DialogueLine[] lines;
     private int currentLine = 0;
     private bool isTalking = false;
-    private bool inputBlocked = false;
+    private bool inputLocked = false;
     public static DialogueManager Instance;
-
+    private DialogueLine currentDialogueLine;
     void Awake()
     {
         Instance = this;
     }
 
-    private bool inputReady = false;
 
     void Update()
     {
-        if (!isTalking) return;
+        if (!isTalking || inputLocked) return;
 
-        // 키 떼기 감지
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            inputReady = true;
-        }
-
-        // 키 누르기 감지 (한 번 떴다가 다시 눌렸을 때만)
-        if (Input.GetKeyDown(KeyCode.E) && inputReady)
+        if (Input.GetKeyDown(KeyCode.E))
         {
             AdvanceDialogue();
-            inputReady = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -59,12 +50,13 @@ public class DialogueManager : MonoBehaviour
         isTalking = true;
         talkPanel.SetActive(true);
         DisplayLine(lines[currentLine]);
-        Invoke(nameof(UnlockInput), 0.1f);
+        inputLocked = true;
+        Invoke(nameof(UnlockInput), 0.15f); //  약간의 시간차 후 입력 허용
     }
 
     private void UnlockInput()
     {
-        inputBlocked = false;
+        inputLocked = false;
     }
 
     private void AdvanceDialogue()
@@ -72,7 +64,7 @@ public class DialogueManager : MonoBehaviour
         currentLine++;
         if (currentLine >= lines.Length)
         {
-            EndDialogue();
+            ForceEndDialogue();
         }
         else
         {
@@ -82,6 +74,7 @@ public class DialogueManager : MonoBehaviour
 
     private void DisplayLine(DialogueLine line)
     {
+        currentDialogueLine = line; 
         nameText.text = line.speakerName;
         dialogueText.text = line.text;
         portraitImage.sprite = line.expression;
@@ -96,7 +89,30 @@ public class DialogueManager : MonoBehaviour
     public void ForceEndDialogue()
     {
         EndDialogue();
+
+        if (currentDialogueLine == null)
+        {
+            Debug.LogError("❌ currentDialogueLine is NULL!");
+            return;
+        }
+
+        if (!currentDialogueLine.triggerSceneChange)
+        {
+            Debug.Log("ℹ️ 씬 전환 트리거 아님");
+            return;
+        }
+
+        if (SceneFader.Instance == null)
+        {
+            Debug.LogError("❌ SceneFader.Instance is NULL! 씬에 존재하지 않음");
+            return;
+        }
+
+        Debug.Log("✅ 씬 전환 시도: " + currentDialogueLine.nextSceneName);
+        SceneFader.Instance.FadeAndLoadScene(currentDialogueLine.nextSceneName);
     }
 
     public bool IsTalking() => isTalking;
+
+
 }
