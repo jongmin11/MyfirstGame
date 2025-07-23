@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f6fa3d0408c0d54bba3b137d9b13ddf, type: 3}
-  m_Name: firstmeet
+  m_Name: FirstMidmeet
   m_EditorClassIdentifier: 
   lines:
   - speakerName: Luna

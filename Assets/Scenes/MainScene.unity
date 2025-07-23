@@ -6135,6 +6135,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: TopNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 8534642788800312468, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: dialogueData
+      value: 
+      objectReference: {fileID: 11400000, guid: 374d2b765dadba447985bfabc3e413f7,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6763,6 +6769,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 8534642788800312468, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: dialogueData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ed791ee90a18da428ee7ff4a49d21d3,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6988,6 +7000,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 8534642788800312468, guid: 7b02d892125f1e14191a7358498e6308,
+        type: 3}
+      propertyPath: dialogueData
+      value: 
+      objectReference: {fileID: 11400000, guid: dafaca9294b2b0b42a64a9296bb24a42,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
