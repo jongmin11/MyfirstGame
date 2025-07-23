@@ -7,15 +7,15 @@ public class SceneFader : MonoBehaviour
 {
     public static SceneFader Instance;
 
-    public Image fadeImage;      // 검정 이미지
-    public GameObject loadingUI; // 로딩 전체 UI 패널
-    public Slider loadingBar;    // 슬라이더
+    private GameObject loadingUI;
+    private Image fadeImage;
+    private Slider loadingBar;
 
     public float fadeDuration = 1f;
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
@@ -23,12 +23,6 @@ public class SceneFader : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        // ✅ UI도 같이 유지
-        if (fadeImage != null)
-            DontDestroyOnLoad(fadeImage.transform.root.gameObject);
-        if (loadingUI != null)
-            DontDestroyOnLoad(loadingUI.transform.root.gameObject);
     }
 
     public void FadeAndLoadScene(string sceneName)
@@ -38,56 +32,66 @@ public class SceneFader : MonoBehaviour
 
     private IEnumerator FadeThenLoad(string sceneName)
     {
-        Debug.Log("🔥 씬 전환 시작");
-
-        // ✅ 무조건 로딩UI 활성화 + 레이아웃 확인
-        if (loadingUI != null)
+        // 1. 로딩 UI 준비
+        if (loadingUI == null)
         {
-            loadingUI.SetActive(true);
-
-            // 🔥 위치 재조정: 화면 중앙에 강제로 배치
-            RectTransform rt = loadingUI.GetComponent<RectTransform>();
-            if (rt != null)
+            GameObject prefab = Resources.Load<GameObject>("LoadingCanvas");
+            if (prefab == null)
             {
-                rt.anchoredPosition = Vector2.zero;
-                rt.localScale = Vector3.one;
+                yield break;
             }
 
-            // 🔥 알파/캔버스 그룹도 강제 켜기
-            CanvasGroup cg = loadingUI.GetComponent<CanvasGroup>();
-            if (cg != null)
-            {
-                cg.alpha = 1f;
-                cg.interactable = true;
-                cg.blocksRaycasts = true;
-            }
+            loadingUI = Instantiate(prefab);
+            DontDestroyOnLoad(loadingUI);
 
-            Debug.Log("✅ loadingUI 활성화 완료");
-        }
-        else
-        {
-            Debug.LogError("❌ loadingUI == null (참조 없음)");
+            fadeImage = loadingUI.transform.Find("BlackFade").GetComponent<Image>();
+            loadingBar = loadingUI.transform.Find("BlackFade/LoadingBar").GetComponent<Slider>();
         }
 
-        yield return null;
+        loadingUI.SetActive(true);
+        yield return StartCoroutine(Fade(0f, 1f));  // 어두워지기
 
-        yield return StartCoroutine(Fade(0f, 1f));
-
+        // 2. 씬 비동기 로드
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
 
-        while (op.progress < 0.9f)
+        // 3. 가짜 로딩 진행률 만들기
+        float fakeLoadTime = Random.Range(1.5f, 3.0f);
+        float timer = 0f;
+        while (timer < fakeLoadTime)
         {
+            timer += Time.deltaTime;
+            float progress = Mathf.Clamp01(timer / fakeLoadTime);
             if (loadingBar != null)
-                loadingBar.value = op.progress;
+                loadingBar.value = progress;
             yield return null;
         }
 
-        if (loadingBar != null)
-            loadingBar.value = 1f;
+        // 4. 로딩바 확실히 1까지 도달
+        while (loadingBar != null && loadingBar.value < 1f)
+        {
+            loadingBar.value += Time.deltaTime * 0.5f;
+            yield return null;
+        }
 
+        // 5. 진짜 씬 로딩 끝났는지 대기
+        while (!op.isDone || op.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        //  여기서만 allowSceneActivation 허용
         yield return new WaitForSeconds(0.5f);
         op.allowSceneActivation = true;
+
+        // 6. 씬 넘어간 후 다음 프레임
+        yield return null;
+
+        // 7. 밝아지기
+        yield return StartCoroutine(Fade(1f, 0f));
+
+        // 8. 로딩 UI 꺼주기
+        loadingUI.SetActive(false);
     }
 
     private IEnumerator Fade(float from, float to)
