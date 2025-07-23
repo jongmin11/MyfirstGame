@@ -7,11 +7,24 @@ public class NPCInteraction : MonoBehaviour
 
     private bool isPlayerNearby = false;
 
+    private bool hasSpoken = false;
+
     void Update()
     {
+        // 대화 시작
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
-        {   
-            DialogueManager.Instance.StartDialogue(dialogueData);
+        {
+            if (!DialogueManager.Instance.IsTalking() && !hasSpoken)
+            {
+                DialogueManager.Instance.StartDialogue(dialogueData);
+                hasSpoken = true;
+            }
+        }
+
+        // 대화가 끝나면 다시 대화 가능하도록 초기화
+        if (!DialogueManager.Instance.IsTalking() && hasSpoken)
+        {
+            hasSpoken = false;
         }
     }
 
@@ -29,11 +42,11 @@ public class NPCInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             eKeyUI.SetActive(false);
+            isPlayerNearby = false;
 
-            // 대화 중이 아닐 때만 끊음
-            if (!DialogueManager.Instance.IsTalking())
+            if (DialogueManager.Instance.IsTalking())
             {
-                isPlayerNearby = false;
+                DialogueManager.Instance.ForceEndDialogue();
             }
         }
     }
