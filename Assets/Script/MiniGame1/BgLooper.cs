@@ -26,7 +26,14 @@ public class BgLooper : MonoBehaviour
 
         if (collision.CompareTag("BackGround"))
         {
-            float widthOfBgObject = ((BoxCollider2D)collision).size.x;
+            BoxCollider2D boxCol = collision.GetComponent<BoxCollider2D>();
+            if (boxCol == null)
+            {
+                Debug.LogError($"{collision.name} 오브젝트에 BoxCollider2D가 없음. 현재 타입: {collision.GetType().Name}");
+                return;
+            }
+
+            float widthOfBgObject = boxCol.size.x;
             Vector3 pos = collision.transform.position;
 
             pos.x += widthOfBgObject * numBgCount;

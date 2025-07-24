@@ -1,59 +1,75 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("UI")]
-    public GameObject gameStartUI;  // 시작 패널
-    public GameObject gameOverUI;   // 게임오버 패널
+    [Header("게임 시작 UI")]
+    public GameObject gameStartUI;
 
-    public TMP_Text nowScoreText;   // 현재 점수 텍스트 (게임오버에서만 표시)
-    public TMP_Text bestScoreText;  // 최고 점수 텍스트 (게임오버에서만 표시)
+    [Header("게임 중 점수 UI")]
+    public TMP_Text scoreText;
+
+    [Header("게임 오버 패널 및 텍스트")]
+    public GameObject gameOverUI;
+    public TMP_Text currentScoreText;
+    public TMP_Text bestScoreText;
 
     private int score = 0;
     private int bestScore = 0;
 
-    private const string FIRST_PLAY_KEY = "HasPlayedBefore";
+    // ✅ 씬별로 페이드 인 여부 추적
+    private static HashSet<string> fadedScenes = new HashSet<string>();
 
-    private void Awake()
+    void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
-    private void Start()
+    void Start()
     {
         bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        StartCoroutine(InitialSetup());
+    }
 
-        // 처음 실행이면 시작 UI 띄우고 멈춤
-        if (!PlayerPrefs.HasKey(FIRST_PLAY_KEY))
-        {
-            Time.timeScale = 0f;
-            gameStartUI.SetActive(true);
-            PlayerPrefs.SetInt(FIRST_PLAY_KEY, 1);
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            gameStartUI.SetActive(false);
-        }
+    private IEnumerator InitialSetup()
+    {
+        Time.timeScale = 0f;
+        gameStartUI?.SetActive(true);
+        UpdateScoreUI();
+        gameOverUI?.SetActive(false);
 
-        gameOverUI.SetActive(false);
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        // ✅ 이 씬이 처음 로드된 경우에만 페이드 인
+        if (!fadedScenes.Contains(currentScene))
+        {
+            fadedScenes.Add(currentScene);
+            yield return SceneFader.Instance.FadeInOnly();
+        }
     }
 
     public void OnClickStartGame()
     {
         Time.timeScale = 1f;
-        gameStartUI.SetActive(false);
+        gameStartUI?.SetActive(false);
     }
 
-    public void AddScore(int value)
+    public void AddScore(int amount)
     {
-        score += value;
-        // 스코어는 이미지 방식으로 표현하므로 텍스트는 건드리지 않음
+        score += amount;
+        UpdateScoreUI();
+    }
+
+    void UpdateScoreUI()
+    {
+        if (scoreText != null)
+            scoreText.text = $"SCORE : {score}";
     }
 
     public void GameOver()
@@ -66,25 +82,24 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("BestScore", bestScore);
         }
 
-        // 텍스트에 현재/최고 점수 반영
-        if (nowScoreText != null)
-            nowScoreText.text = score.ToString();
+        if (currentScoreText != null)
+            currentScoreText.text = $"SCORE : {score}";
 
         if (bestScoreText != null)
-            bestScoreText.text = bestScore.ToString();
+            bestScoreText.text = $"BEST : {bestScore}";
 
-        gameOverUI.SetActive(true);
+        gameOverUI?.SetActive(true);
     }
 
     public void Retry()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneFader.Instance.FadeAndLoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ExitToMain()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainScene");
+        SceneFader.Instance.FadeAndLoadScene("MainScene");
     }
 }

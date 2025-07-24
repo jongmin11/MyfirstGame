@@ -91,12 +91,39 @@ public class SceneFader : MonoBehaviour
 
         while (t < fadeDuration)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float alpha = Mathf.Lerp(from, to, t / fadeDuration);
             fadeImage.color = new Color(color.r, color.g, color.b, alpha);
             yield return null;
         }
 
         fadeImage.color = new Color(color.r, color.g, color.b, to);
+    }
+
+    public IEnumerator FadeInOnly()
+    {
+        if (loadingUI == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>("LoadingCanvas");
+            if (prefab == null)
+            {
+                Debug.LogError("Resources/LoadingCanvas 프리팹 없음");
+                yield break;
+            }
+
+            loadingUI = Instantiate(prefab);
+            DontDestroyOnLoad(loadingUI);
+
+            fadeImage = loadingUI.transform.Find("BlackFade").GetComponent<Image>();
+            loadingBar = loadingUI.transform.Find("BlackFade/LoadingBar")?.GetComponent<Slider>();
+        }
+
+        loadingUI.SetActive(true);
+        if (loadingBar != null) loadingBar.gameObject.SetActive(false);
+
+        yield return StartCoroutine(Fade(1f, 0f)); 
+
+        fadeImage.raycastTarget = false;
+        loadingUI.SetActive(false);
     }
 }
