@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 490008465505403256}
   - component: {fileID: 2628228325292544871}
   - component: {fileID: 5035771796779063169}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 1506970369382179153}
   - component: {fileID: 4343701026356098789}
   - component: {fileID: 7962281262153823542}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Opstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 5994551308136281887}
   - component: {fileID: 7963256062166272478}
   - component: {fileID: 6657474399953155373}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: rockDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
