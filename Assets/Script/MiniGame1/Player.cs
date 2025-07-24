@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     public float jumpForce = 5f;
     bool isdead = false;
     bool isflapping = false;
-    bool godMode = false;
-    Rigidbody2D rigidbody2D;    
+    public bool godMode = false;
+     new Rigidbody2D rigidbody2D;    
     Animator animator;
 
     void Start()
@@ -52,5 +52,20 @@ public class Player : MonoBehaviour
         rigidbody2D.velocity = velocity;
         float angle = Mathf.Clamp((rigidbody2D.velocity.y * 10), -90f, 90f);
         transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (godMode)
+        {
+            return;
+        }
+
+        if (isdead)
+        {
+            return;
+        }
+
+        isdead = true;
     }
 }
