@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class BgLooper : MonoBehaviour
 {
     public int numBgCount = 5;
-
     public int obestacleCount = 0;
     public Vector3 obstacleLastPosition = Vector3.zero;
 
@@ -19,6 +18,7 @@ public class BgLooper : MonoBehaviour
         {
             obstacleLastPosition = obstacles[i].SetRandomPlace(obstacleLastPosition, obestacleCount);
         }
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -29,14 +29,13 @@ public class BgLooper : MonoBehaviour
             BoxCollider2D boxCol = collision.GetComponent<BoxCollider2D>();
             if (boxCol == null)
             {
-                Debug.LogError($"{collision.name} 오브젝트에 BoxCollider2D가 없음. 현재 타입: {collision.GetType().Name}");
+
                 return;
             }
 
-            float widthOfBgObject = boxCol.size.x;
+            float width = boxCol.size.x * collision.transform.localScale.x;
             Vector3 pos = collision.transform.position;
-
-            pos.x += widthOfBgObject * numBgCount;
+            pos.x += width * numBgCount;
             collision.transform.position = pos;
             return;
         }
