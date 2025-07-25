@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 35214211746174508}
   m_Layer: 0
   m_Name: Coin_1pt
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,9 +44,10 @@ GameObject:
   - component: {fileID: 8877347085637857122}
   - component: {fileID: 8550955315827044295}
   - component: {fileID: 7216465433852644042}
+  - component: {fileID: 3023402897955699576}
   m_Layer: 20
   m_Name: Coin_1pt
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,3 +168,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreValue: 1
   coinSprite: {fileID: 21300000, guid: d2b0f0107a1c3aa47839e857b8ec2a3b, type: 3}
+--- !u!50 &3023402897955699576
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9015696479797325274}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

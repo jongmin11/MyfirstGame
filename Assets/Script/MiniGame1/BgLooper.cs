@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class BgLooper : MonoBehaviour
 {
     public int numBgCount = 5;
+
     public int obestacleCount = 0;
     public Vector3 obstacleLastPosition = Vector3.zero;
 
@@ -18,24 +19,22 @@ public class BgLooper : MonoBehaviour
         {
             obstacleLastPosition = obstacles[i].SetRandomPlace(obstacleLastPosition, obestacleCount);
         }
-
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.CompareTag("Coin"))
+        {
+            Destroy(collision.transform.root.gameObject);
+            return;
+        }
 
         if (collision.CompareTag("BackGround"))
         {
-            BoxCollider2D boxCol = collision.GetComponent<BoxCollider2D>();
-            if (boxCol == null)
-            {
-
-                return;
-            }
-
-            float width = boxCol.size.x * collision.transform.localScale.x;
+            float widthOfBgObject = ((BoxCollider2D)collision).size.x;
             Vector3 pos = collision.transform.position;
-            pos.x += width * numBgCount;
+
+            pos.x += widthOfBgObject * numBgCount;
             collision.transform.position = pos;
             return;
         }

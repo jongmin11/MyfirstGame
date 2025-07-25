@@ -7234,8 +7234,9 @@ GameObject:
   - component: {fileID: 1943886262}
   - component: {fileID: 1943886261}
   - component: {fileID: 1943886260}
+  - component: {fileID: 1943886264}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ViewbestScoreTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7280,7 +7281,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1943886262
 Canvas:
   m_ObjectHideFlags: 0
@@ -7324,6 +7325,19 @@ RectTransform:
   m_AnchoredPosition: {x: -3.2, y: 139.7}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1943886264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943886259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5047402593d236842abfeada7cd516af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestScoreText: {fileID: 166009404}
 --- !u!1 &1996430655
 GameObject:
   m_ObjectHideFlags: 0
