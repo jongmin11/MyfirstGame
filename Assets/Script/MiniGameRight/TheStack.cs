@@ -20,12 +20,13 @@ public class TheStack : MonoBehaviour
     float secondaryPosition = 0f;
 
     int stackCount = -1;
-    public int Score { get { return stackCount; } } 
-    int comboCount = 0;
-    public int ComboCount { get { return comboCount; } }
+    public int Score { get { return stackCount; } }
 
-    int maxCombo = 0;
-    public int MaxCombo { get { return maxCombo; } }
+    int comboCount = 0;
+    public int Combo { get { return comboCount; } }
+
+    private int maxCombo = 0;
+    public int MaxCombo { get => maxCombo; }
 
     public Color prevColor;
     public Color nextColor;
@@ -33,16 +34,15 @@ public class TheStack : MonoBehaviour
     bool isMovingX = true;
 
     int bestScore = 0;
-    public int BestScore { get { return bestScore; } }
+    public int BestScore { get => bestScore; }
 
     int bestCombo = 0;
-    public int BestCombo { get { return bestCombo; } }
+    public int BestCombo { get => bestCombo; }
 
     private const string BestScoreKey = "BestScore";
     private const string BestComboKey = "BestCombo";
 
-    private bool isGameOver = false;
-
+    private bool isGameOver = true;
 
     void Start()
     {
@@ -52,11 +52,11 @@ public class TheStack : MonoBehaviour
             return;
         }
 
-        bestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
-        bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
-
         prevColor = GetRandomColor();
         nextColor = GetRandomColor();
+
+        bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
+        bestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
 
         prevBlockPosition = Vector3.down;
         Spawn_Block();
@@ -65,10 +65,7 @@ public class TheStack : MonoBehaviour
     void Update()
     {
         if (isGameOver)
-        {
-            // 게임 오버 상태에서는 입력을 받지 않음
             return;
-        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -79,9 +76,11 @@ public class TheStack : MonoBehaviour
             else
             {
                 // 게임 오버
+                Debug.Log("GameOver");
+                UpdateScore();
                 isGameOver = true;
-                UpdataScore();
                 GameOverEffect();
+                UIManager.Instance.SetScoreUI();
             }
         }
 
@@ -122,6 +121,7 @@ public class TheStack : MonoBehaviour
         lastBlock = newTrans;
 
         isMovingX = !isMovingX;
+        UIManager.Instance.UpdateScore();
         return true;
     }
 
@@ -274,36 +274,34 @@ public class TheStack : MonoBehaviour
         go.name = "Rubble";
     }
 
-
     void ComboCheck()
     {
         comboCount++;
 
         if (comboCount > maxCombo)
-        {
             maxCombo = comboCount;
-        }
 
-        if (comboCount % 5 == 0)
+        if ((comboCount % 5) == 0)
         {
-            // 콤보 달성 시 추가 효과
-            Debug.Log("Combo Achieved: " + comboCount);
+            Debug.Log("5Combo Success!");
             stackBounds += new Vector3(0.5f, 0.5f);
-            stackBounds.x = (stackBounds.x > BoundSize) ? BoundSize : stackBounds.x;
-            stackBounds.y = (stackBounds.y > BoundSize) ? BoundSize : stackBounds.y;
+            stackBounds.x =
+                (stackBounds.x > BoundSize) ? BoundSize : stackBounds.x;
+            stackBounds.y =
+                (stackBounds.y > BoundSize) ? BoundSize : stackBounds.y;
         }
     }
 
-    void UpdataScore()
+    void UpdateScore()
     {
-        if(bestScore < stackCount)
+        if (bestScore < stackCount)
         {
+            Debug.Log("최고 점수 갱신");
             bestScore = stackCount;
             bestCombo = maxCombo;
 
             PlayerPrefs.SetInt(BestScoreKey, bestScore);
             PlayerPrefs.SetInt(BestComboKey, bestCombo);
-
         }
     }
 
@@ -311,17 +309,56 @@ public class TheStack : MonoBehaviour
     {
         int childCount = this.transform.childCount;
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 1; i < 20; i++)
         {
-           if (childCount < 0) break;
+            if (childCount < i)
+                break;
 
-           GameObject go = transform.GetChild(childCount - 1).gameObject;
+            GameObject go =
+                this.transform.GetChild(childCount - i).gameObject;
 
-           if (go.name.Equals("Rubble")) continue;
+            if (go.name.Equals("Rubble"))
+                continue;
 
-           Rigidbody rb = go.AddComponent<Rigidbody>();
+            Rigidbody rigid = go.AddComponent<Rigidbody>();
 
-            rb.AddForce(Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10f) - 5f) * 100f);       
+            rigid.AddForce(
+                (Vector3.up * Random.Range(0, 10f)
+                 + Vector3.right * (Random.Range(0, 10f) - 5f))
+                * 100f
+            );
         }
+    }
+
+    public void Restart()
+    {
+        int childCount = this.transform.childCount;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            Destroy(this.transform.GetChild(i).gameObject);
+        }
+
+        isGameOver = false;
+
+        lastBlock = null;
+        desiredPosition = Vector3.zero;
+        stackBounds = new Vector3(BoundSize, BoundSize);
+
+        stackCount = -1;
+        isMovingX = true;
+        blockTransition = 0f;
+        secondaryPosition = 0f;
+
+        comboCount = 0;
+        maxCombo = 0;
+
+        prevBlockPosition = Vector3.down;
+
+        prevColor = GetRandomColor();
+        nextColor = GetRandomColor();
+
+        Spawn_Block();
+        Spawn_Block();
     }
 }
