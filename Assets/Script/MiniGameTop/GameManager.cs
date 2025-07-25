@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
     private int bestScore = 0;
-
-    // ✅ 씬별로 페이드 인 여부 추적
+    private string BestKey => $"{SceneManager.GetActiveScene().name}_BestScore";
+    // 씬별로 페이드 인 여부 추적
     private static HashSet<string> fadedScenes = new HashSet<string>();
 
     void Awake()
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        bestScore = PlayerPrefs.GetInt(BestKey, 0);
         StartCoroutine(InitialSetup());
     }
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
         string currentScene = SceneManager.GetActiveScene().name;
 
-        // ✅ 이 씬이 처음 로드된 경우에만 페이드 인
+        // 이 씬이 처음 로드된 경우에만 페이드 인
         if (!fadedScenes.Contains(currentScene))
         {
             fadedScenes.Add(currentScene);
@@ -79,7 +79,8 @@ public class GameManager : MonoBehaviour
         if (score > bestScore)
         {
             bestScore = score;
-            PlayerPrefs.SetInt("BestScore", bestScore);
+            PlayerPrefs.SetInt(BestKey, bestScore);
+            PlayerPrefs.Save();
         }
 
         if (currentScoreText != null)

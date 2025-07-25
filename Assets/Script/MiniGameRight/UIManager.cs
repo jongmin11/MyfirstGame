@@ -59,11 +59,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickExit()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); // 어플리케이션 종료
-#endif
+        Time.timeScale = 1f;
+        SceneFader.Instance.FadeAndLoadScene("MainScene");
     }
 
     public void UpdateScore()

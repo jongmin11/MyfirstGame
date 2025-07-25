@@ -50,7 +50,8 @@ public class SceneFader : MonoBehaviour
         }
 
         loadingUI.SetActive(true);
-
+        if (loadingBar != null)
+            loadingBar.value = 0f;
         // 2. 화면 어두워지기 (페이드 아웃)
         yield return StartCoroutine(Fade(0f, 1f));
 
@@ -63,7 +64,7 @@ public class SceneFader : MonoBehaviour
         {
             float progress = Mathf.Clamp01(op.progress / 0.9f); // 0~1 보정
             if (loadingBar != null)
-                loadingBar.value = Mathf.MoveTowards(loadingBar.value, progress, Time.deltaTime * 0.5f);
+                loadingBar.value = progress;
             yield return null;
         }
 

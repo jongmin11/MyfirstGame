@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 101225358}
   - component: {fileID: 101225357}
   - component: {fileID: 101225356}
-  - component: {fileID: 101225355}
+  - component: {fileID: 101225360}
   m_Layer: 5
   m_Name: ViewbestScoreRight
   m_TagString: Untagged
@@ -442,19 +442,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &101225355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101225354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5047402593d236842abfeada7cd516af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 1887875513}
 --- !u!114 &101225356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +525,21 @@ RectTransform:
   m_AnchoredPosition: {x: 219.1, y: 12.1}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &101225360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101225354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5047402593d236842abfeada7cd516af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneName: MiniGameRight
+    bestScoreText: {fileID: 1887875513}
 --- !u!1001 &112209222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7664,7 +7666,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5047402593d236842abfeada7cd516af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 166009404}
+  entries:
+  - sceneName: MiniGameTop
+    bestScoreText: {fileID: 166009404}
 --- !u!1 &1996430655
 GameObject:
   m_ObjectHideFlags: 0

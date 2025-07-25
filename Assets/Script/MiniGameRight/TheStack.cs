@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class TheStack : MonoBehaviour
 {
     // Const Value
@@ -39,7 +39,7 @@ public class TheStack : MonoBehaviour
     int bestCombo = 0;
     public int BestCombo { get => bestCombo; }
 
-    private const string BestScoreKey = "BestScore";
+    private string BestScoreKey => $"{SceneManager.GetActiveScene().name}_BestScore";
     private const string BestComboKey = "BestCombo";
 
     private bool isGameOver = true;
@@ -301,6 +301,7 @@ public class TheStack : MonoBehaviour
             bestCombo = maxCombo;
 
             PlayerPrefs.SetInt(BestScoreKey, bestScore);
+            PlayerPrefs.Save();
             PlayerPrefs.SetInt(BestComboKey, bestCombo);
         }
     }
