@@ -70,8 +70,5 @@ public class Player : MonoBehaviour
         GameManager.Instance.GameOver();
     }
 
-    public void OnScore()
-    {
-        // 현재는 아무 것도 안 해도 괜찮음
-    }
+    public void OnScore() {}
 }
